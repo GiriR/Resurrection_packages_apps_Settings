@@ -1182,4 +1182,9 @@
     <string name="shake_clean_notification">Clean notifications</string>
     <string name="shake_clean_notification_summary">Clean notification by shake</string>
 
+    <string name="shake_clear_recents">Shake to clear</string>
+    <string name="shake_clear_recents_summary">Clear recents by shaking your phone</string>
+
+    <!-- Lock screen rotation -->
+    <string name="display_lockscreen_rotation_title">Lock screen</string>
 </resources>
