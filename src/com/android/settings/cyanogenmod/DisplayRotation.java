@@ -140,7 +140,6 @@ public class DisplayRotation extends SettingsPreferenceFragment {
 
     private void updateAccelerometerRotationSwitch() {
         mAccelerometer.setChecked(!RotationPolicy.isRotationLocked(getActivity()));
-	mAccelerometer.setEnabled(RotationPolicy.isRotationLockToggleVisible(getActivity()));
     }
 
     private int getRotationBitmask() {
@@ -158,14 +157,14 @@ public class DisplayRotation extends SettingsPreferenceFragment {
             mode |= ROTATION_270_MODE;
         }
         return mode;
-    }
+}
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
             Preference preference) {
         if (preference == mAccelerometer) {
-            RotationPolicy.setRotationLock(getActivity(), !mAccelerometer.isChecked());
-            return true;
+            RotationPolicy.setRotationLockForAccessibility(getActivity(),
+                !((Boolean) objValue));
         } else if (preference == mRotation0Pref ||
                 preference == mRotation90Pref ||
                 preference == mRotation180Pref ||
