@@ -258,8 +258,7 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     }
 
     private void updateDisplayRotationPreferenceDescription() {
-        PreferenceScreen preference = mDisplayRotationPreference;
-        if (preference == null) {
+	if (mDisplayRotationPreference == null) {
             return;
         }
 
@@ -272,7 +271,8 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             return;
         }
 
-        StringBuilder summary = new StringBuilder();
+	PreferenceScreen preference = mDisplayRotationPreference;    
+	StringBuilder summary = new StringBuilder();
         int mode = Settings.System.getInt(getContentResolver(),
                 Settings.System.ACCELEROMETER_ROTATION_ANGLES,
                 DisplayRotation.ROTATION_0_MODE
@@ -353,47 +353,10 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
         preference.setSummary(summary);
     }
 
-    private void updateDisplayRotationPreferenceDescription() {
-        if (mDisplayRotationPreference == null) {
-            return;
-        }
-        PreferenceScreen preference = mDisplayRotationPreference;
-        StringBuilder summary = new StringBuilder();
-        Boolean rotationEnabled = Settings.System.getInt(getContentResolver(),
-                Settings.System.ACCELEROMETER_ROTATION, 0) != 0;
-        int mode = Settings.System.getInt(getContentResolver(),
-                Settings.System.ACCELEROMETER_ROTATION_ANGLES,
-                DisplayRotation.ROTATION_0_MODE|DisplayRotation.ROTATION_90_MODE
-                |DisplayRotation.ROTATION_270_MODE);
-
-        if (!rotationEnabled) {
-            summary.append(getString(R.string.display_rotation_disabled));
-        } else {
-            ArrayList<String> rotationList = new ArrayList<String>();
-            String delim = "";
-            if ((mode & DisplayRotation.ROTATION_0_MODE) != 0) {
-                rotationList.add(ROTATION_ANGLE_0);
-            }
-            if ((mode & DisplayRotation.ROTATION_90_MODE) != 0) {
-                rotationList.add(ROTATION_ANGLE_90);
-            }
-            if ((mode & DisplayRotation.ROTATION_180_MODE) != 0) {
-                rotationList.add(ROTATION_ANGLE_180);
-            }
-            if ((mode & DisplayRotation.ROTATION_270_MODE) != 0) {
-                rotationList.add(ROTATION_ANGLE_270);
-            }
-            for (int i = 0; i < rotationList.size(); i++) {
-                summary.append(delim).append(rotationList.get(i));
-                if ((rotationList.size() - i) > 2) {
-                    delim = ", ";
-                } else {
-                    delim = " & ";
-                }
-            }
-            summary.append(" " + getString(R.string.display_rotation_unit));
-        }
-        preference.setSummary(summary);
+    private void updateLcdDensityPreferenceDescription(int currentDensity) {
+        final int summaryResId = currentDensity == getDefaultDensity()
+                ? R.string.lcd_density_default_value_format : R.string.lcd_density_value_format;
+        mLcdDensityPreference.setSummary(getString(summaryResId, currentDensity));
     }
 
     private void disableUnusableTimeouts(ListPreference screenTimeoutPreference) {
@@ -714,3 +677,4 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
                 }
             };
 }
+

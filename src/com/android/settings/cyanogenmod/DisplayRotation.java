@@ -92,7 +92,7 @@ public class DisplayRotation extends SettingsPreferenceFragment {
         mRotation270Pref.setChecked((mode & ROTATION_270_MODE) != 0);
 	mLockScreenRotationPref.setChecked(lockScreenRotationEnabled);
 
-	mLockScreenRotationPref.setOnPreferenceChangeListener(this);
+	
 
         boolean hasRotationLock = false;
 //        getResources().getBoolean(
@@ -105,10 +105,11 @@ public class DisplayRotation extends SettingsPreferenceFragment {
             mRotation90Pref.setDependency(null);
             mRotation180Pref.setDependency(null);
             mRotation270Pref.setDependency(null);
+	    mLockScreenRotationPref.setDependency(null);
         }
 
         final SwitchPreference lockScreenRotation =
-                (SwitchPreference) findPreference(KEY_LOCKSCREEN_ROTATION);
+                (SwitchPreference) findPreference(LOCKSCREEN_ROTATION);
         boolean canRotateLockscreen = getResources().getBoolean(
                 com.android.internal.R.bool.config_enableLockScreenRotation);
 
@@ -159,12 +160,10 @@ public class DisplayRotation extends SettingsPreferenceFragment {
         return mode;
 }
 
-    @Override
-    public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen,
-            Preference preference) {
+    public boolean onPreferenceTreeClick( Preference preference, Object objValue){
         if (preference == mAccelerometer) {
-            RotationPolicy.setRotationLockForAccessibility(getActivity(),
-                !((Boolean) objValue));
+            RotationPolicy.setRotationLock(getActivity(), !mAccelerometer.isChecked());
+            return true;
         } else if (preference == mRotation0Pref ||
                 preference == mRotation90Pref ||
                 preference == mRotation180Pref ||
@@ -182,7 +181,7 @@ public class DisplayRotation extends SettingsPreferenceFragment {
                     Settings.System.LOCKSCREEN_ROTATION, ((Boolean) objValue) ? 1 : 0);
             return true;
 	}
-        return super.onPreferenceTreeClick(preferenceScreen, preference);
+        return false ;
     }
 }
 

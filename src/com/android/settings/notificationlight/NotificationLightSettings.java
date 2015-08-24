@@ -82,6 +82,7 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
     private PreferenceScreen mBrightnessLedLevelPref;
     private SystemSettingSwitchPreference mEnabledPref;
     private SystemSettingSwitchPreference mCustomEnabledPref;
+    private SystemSettingSwitchPreference mScreenOnLightsPref;
     private ApplicationLightPreference mDefaultPref;
     private ApplicationLightPreference mCallPref;
     private ApplicationLightPreference mVoicemailPref;
@@ -99,6 +100,7 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
         Resources resources = getResources();
 
         PreferenceGroup mGeneralPrefs = (PreferenceGroup) prefSet.findPreference("general_section");
+	PreferenceGroup mAdvancedPrefs = (PreferenceGroup) prefSet.findPreference("advanced_section");
         PreferenceGroup mPhonePrefs = (PreferenceGroup) prefSet.findPreference("phone_list");
 
         mBrightnessNotificationLed = resources.getBoolean(
@@ -118,14 +120,13 @@ public class NotificationLightSettings extends SettingsPreferenceFragment implem
         mEnabledPref = (SystemSettingSwitchPreference)
                 findPreference(Settings.System.NOTIFICATION_LIGHT_PULSE);
         mEnabledPref.setOnPreferenceChangeListener(this);
+        mCustomEnabledPref = (SystemSettingSwitchPreference)
+                findPreference(Settings.System.NOTIFICATION_LIGHT_PULSE_CUSTOM_ENABLE);
+        mCustomEnabledPref.setOnPreferenceChangeListener(this);
 
         // Advanced light settings
         mBrightnessLedLevelPref = (PreferenceScreen)
                 findPreference(Settings.System.NOTIFICATION_LIGHT_BRIGHTNESS_LEVEL);
-        mScreenOnLightsPref = (SystemSettingSwitchPreference)
-        mCustomEnabledPref = (SystemSettingSwitchPreference)
-                findPreference(Settings.System.NOTIFICATION_LIGHT_PULSE_CUSTOM_ENABLE);
-        mCustomEnabledPref.setOnPreferenceChangeListener(this);
         if (!mBrightnessNotificationLed) {
             mAdvancedPrefs.removePreference(mBrightnessLedLevelPref);
         } else {
